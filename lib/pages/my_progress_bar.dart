@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer' as d;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -38,7 +37,6 @@ class _MyProgressBarState extends State<MyProgressBar> with TickerProviderStateM
   void initState() {
     setupProgressBarAnimation();
     setupProgressBarDecorationAnimation();
-    schedulePauseTime();
     super.initState();
   }
 
@@ -99,11 +97,11 @@ class _MyProgressBarState extends State<MyProgressBar> with TickerProviderStateM
               children: [
                 CustomPaint(
                   painter: CustomProgressBar(animationOffset: _decorationAnimation.value),
-                  size: Size(calculateProgressBarWidth(), 20),
+                  size: Size(calculateProgressBarWidth(), heightOfTheBar),
                 ),
                 Container(
                   width: calculateBackgroundWidth(),
-                  height: 20,
+                  height: heightOfTheBar,
                   color: progressBarBackgrounColor,
                 ),
               ],

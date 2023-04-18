@@ -38,6 +38,7 @@ class _MyProgressBarState extends State<MyProgressBar> with TickerProviderStateM
   void initState() {
     setupProgressBarAnimation();
     setupProgressBarDecorationAnimation();
+    schedulePauseTime();
     super.initState();
   }
 
@@ -58,7 +59,6 @@ class _MyProgressBarState extends State<MyProgressBar> with TickerProviderStateM
         AnimationController(vsync: this, duration: const Duration(seconds: 10));
     _barSizeAnimation = _barSizeAnimationTween.animate(_barSizeAnimationController)
       ..addListener(() => setState(() {}));
-    schedulePauseTime();
   }
 
   Future<void> schedulePauseTime() async {
@@ -115,8 +115,13 @@ class _MyProgressBarState extends State<MyProgressBar> with TickerProviderStateM
     );
   }
 
+  calculateBackgroundWidth() => width - _barSizeAnimation.value / 100 * width;
+
+  calculateProgressBarWidth() => width * _barSizeAnimation.value / 100;
+
   void restart() {
     cancelTimers();
+    schedulePauseTime();
     setupProgressBarAnimation();
     setupProgressBarDecorationAnimation();
     startAnimations();
@@ -128,10 +133,6 @@ class _MyProgressBarState extends State<MyProgressBar> with TickerProviderStateM
     _pauseTime2?.cancel();
     _startTime2?.cancel();
   }
-
-  calculateBackgroundWidth() => width - _barSizeAnimation.value / 100 * width;
-
-  calculateProgressBarWidth() => width * _barSizeAnimation.value / 100;
 
   @override
   void dispose() {
